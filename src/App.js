@@ -1,23 +1,40 @@
-import logo from './logo.svg';
 import './App.css';
+import records from './records.json';
+import SimpleImageSlider from "react-simple-image-slider";
+
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+          <p className = "heading">TOURIST ATTRACTIONS</p>
+
+          {
+              records&&records.map( record => {
+                return(
+                  <div className="box">
+                    <div className = "name">{record.name}</div>
+                    <br/>
+                      <div className="summary">{record.summary}<br/></div>
+                      <br/>
+                      <div className="detailed">{record.detailed}<br/></div>
+                      <br/><br/>
+
+                     <SimpleImageSlider
+                           width={1254}
+                           height={600}
+                           images={record.imagesUrl}
+                           showBullets={true}
+                           showNavs={true}
+                           navMargin = {100}
+                           />
+                     
+                      <br/><br/>
+                    
+                    
+                    </div>
+                )
+              })
+          }
     </div>
   );
 }
