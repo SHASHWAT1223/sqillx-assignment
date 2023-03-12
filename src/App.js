@@ -1,9 +1,25 @@
 import './App.css';
-import records from './records.json';
-import SimpleImageSlider from "react-simple-image-slider";
-
+import { Carousel } from 'react-responsive-carousel';
+import { useState, useEffect } from 'react';
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 function App() {
+
+  const [records, setRecords] = useState([]);
+
+  useEffect(() => {
+    let fetchData = async () => {
+      let result = await fetch('https://carbookingalb-538637861.ap-south-1.elb.amazonaws.com/api/attractions');
+      let jsonResult = await result.json();
+      // console.log(jsonResult[0].imagesUrl);
+      setRecords(jsonResult);
+    }
+
+    fetchData()
+  }, []);
+
+
+
   return (
     <div className="App">
           <p className = "heading">TOURIST ATTRACTIONS</p>
@@ -18,15 +34,19 @@ function App() {
                       <br/>
                       <div className="detailed">{record.detailed}<br/></div>
                       <br/><br/>
-
-                     <SimpleImageSlider
-                           width={1254}
-                           height={600}
-                           images={record.imagesUrl}
-                           showBullets={true}
-                           showNavs={true}
-                           navMargin = {100}
-                           />
+                    <Carousel>
+                    { record.imagesUrl&&record.imagesUrl.map(images => {
+                      return(
+                        <div>
+                        <img className='images' src = {images}></img>
+                          </div>
+                        
+                      )
+                     }
+                    )
+                    }
+                    </Carousel>
+                    
                      
                       <br/><br/>
                     
@@ -38,5 +58,4 @@ function App() {
     </div>
   );
 }
-
-export default App;
+export default App
